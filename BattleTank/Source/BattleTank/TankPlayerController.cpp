@@ -44,7 +44,7 @@ void ATankPlayerController::AimTowardsCrosshair() {
     // Get world location of linetrace through crosshair
     
     if (GetSightRayHitLocation(HitLocation)) {
-        UE_LOG(LogTemp, Warning, TEXT("Hit Location: %s"), *HitLocation.ToString());
+//        UE_LOG(LogTemp, Warning, TEXT("Hit Location: %s"), *HitLocation.ToString());
         // If hits landscape
             // Tell controlled tank to aim at this point
     }
@@ -54,12 +54,44 @@ void ATankPlayerController::AimTowardsCrosshair() {
 }
 
 bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const {
-    HitLocation = FVector(1.0f);
-    // Figure out position of dot
     
-    // Determine where it hits the landscape
-        // If hit landscape, set Location and return true
-        // Otherwise, return false
+    // Figure out position of dot
+    int32 ViewportSizeX, ViewportSizeY;
+    GetViewportSize(ViewportSizeX, ViewportSizeY);
+    
+    auto ScreenLocation = FVector2D(ViewportSizeX * CrossHairXLocation, ViewportSizeY * CrossHairYLocation);
+
+    FVector LookDirection;
+    
+    if (!GetLookDirection(ScreenLocation, LookDirection)) {
+        UE_LOG(LogTemp, Error, TEXT("Unable to Deproject Screen Position to World"));
+        return false;
+    }
+    
+    if (!GetLookVectorHitLocation(LookDirection, HitLocation)) {
+        HitLocation = FVector(0.f);
+    }
+    
+    UE_LOG(LogTemp, Warning, TEXT("Hit Location: %s"), *HitLocation.ToString());
     
     return true;
+}
+
+bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const {
+    FVector WorldLocation;
+    return DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, WorldLocation, LookDirection);
+}
+
+bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const {
+    FHitResult Hit;
+    auto StartLocation = PlayerCameraManager->GetCameraLocation();
+    auto EndLocation = StartLocation + LookDirection * LineTraceRange;
+    
+    if (!GetWorld()->LineTraceSingleByChannel(Hit, StartLocation, EndLocation, ECC_Visibility)) {
+        return false;
+    }
+    
+    HitLocation = Hit.Location;
+    return true;
+    
 }
