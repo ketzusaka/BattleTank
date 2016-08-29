@@ -24,6 +24,10 @@ class BATTLETANK_API ATank : public APawn
     TSubclassOf<AProjectile> ProjectileBlueprint;
     
     UTankBarrel* Barrel = nullptr;
+    
+    float ReloadTimeInSeconds = 3.f;
+    
+    double LastFireTime = 0.f;
 
 public:
 	// Sets default values for this pawn's properties
