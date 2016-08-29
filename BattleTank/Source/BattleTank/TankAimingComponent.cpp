@@ -37,7 +37,10 @@ void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, 
 
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed) {
-    if (!Barrel) { return; }
+    if (!Barrel) {
+        UE_LOG(LogTemp, Error, TEXT("No barrel linked to aiming component"));
+        return;
+    }
     
     auto OurTankName = GetOwner()->GetName();
     
@@ -75,7 +78,7 @@ void UTankAimingComponent::MoveBarrelTo(FVector AimDirection) {
     auto AimAsRotator = AimDirection.Rotation();
     auto DeltaRotator = AimAsRotator - BarrelRotator;
     
-    Barrel->Elevate(5); // TODO: Remove magic number
+    Barrel->Elevate(DeltaRotator.Pitch); // TODO: Remove magic number
 }
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet) {
