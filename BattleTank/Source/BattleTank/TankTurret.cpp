@@ -8,9 +8,7 @@ void UTankTurret::Rotate(float Difference) {
     Difference = FMath::Clamp(Difference, -MaxDegreesPerSecond, MaxDegreesPerSecond);
     auto RotationChange = Difference * GetWorld()->DeltaTimeSeconds;
     auto NewRotation = RelativeRotation.Yaw + RotationChange;
-    UE_LOG(LogTemp, Error, TEXT("Rotation Change: %f; NewRotation: %f"), RotationChange, NewRotation);
 
-
-    SetRelativeRotation(FRotator(RelativeRotation.Pitch, NewRotation, 0));
+    SetRelativeRotation(FRotator(0, NewRotation, 0));
 }
 
