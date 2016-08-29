@@ -69,7 +69,7 @@ void UTankAimingComponent::MoveBarrelTo(FVector AimDirection) {
     // Work out difference between current barrel rotation and aim direction
     auto BarrelRotator = Barrel->GetForwardVector().Rotation();
     auto AimAsRotator = AimDirection.Rotation();
-    auto DeltaRotator AimAsRotator - BarrelRotator;
+    auto DeltaRotator = AimAsRotator - BarrelRotator;
     
     // Move the barrel the right amount this frame
     // Given a max elevation, and the frame time
