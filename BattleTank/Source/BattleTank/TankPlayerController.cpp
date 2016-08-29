@@ -2,7 +2,7 @@
 
 #include "BattleTank.h"
 #include "TankPlayerController.h"
-
+#include "Tank.h"
 
 
 ATankPlayerController::ATankPlayerController() {

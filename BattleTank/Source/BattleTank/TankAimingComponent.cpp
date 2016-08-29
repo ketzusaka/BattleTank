@@ -54,6 +54,9 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed) {
          StartLocation,
          HitLocation,
          LaunchSpeed,
+         false,
+         0,
+         0,
          ESuggestProjVelocityTraceOption::DoNotTrace
         )) {
         UE_LOG(LogTemp, Error, TEXT("Unable to get a suggested projectile velocity for %s from Barrel %s"), *OurTankName, *(BarrelLocation.ToString()));
