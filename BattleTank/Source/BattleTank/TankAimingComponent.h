@@ -13,6 +13,8 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
     
     UStaticMeshComponent* Barrel = nullptr;
 
+    void MoveBarrelTo(FVector Direction);
+    
 public:	
 	// Sets default values for this component's properties
 	UTankAimingComponent();
@@ -23,7 +25,7 @@ public:
 	// Called every frame
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 
-    void AimAt(FVector HitLocation);
+    void AimAt(FVector HitLocation, float LaunchSpeed);
     
     void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
 	
