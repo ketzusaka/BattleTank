@@ -2,6 +2,7 @@
 
 #include "BattleTank.h"
 #include "TankBarrel.h"
+#include "TankTurret.h"
 #include "TankAimingComponent.h"
 
 
@@ -42,6 +43,11 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed) {
         return;
     }
     
+    if (!Turret) {
+        UE_LOG(LogTemp, Error, TEXT("No turret linked to aiming component"));
+        return;
+    }
+    
     auto OurTankName = GetOwner()->GetName();
     
     auto BarrelLocation = Barrel->GetComponentLocation();
@@ -67,9 +73,9 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed) {
     }
     
     auto AimDirection = OutLaunchVelocity.GetSafeNormal(); // Convert to unit vector
-    UE_LOG(LogTemp, Warning, TEXT("%s Aiming at %s"), *OurTankName, *AimDirection.ToString());
     
     MoveBarrelTo(AimDirection);
+    MoveTurretTo(AimDirection);
 }
 
 void UTankAimingComponent::MoveBarrelTo(FVector AimDirection) {
@@ -78,9 +84,43 @@ void UTankAimingComponent::MoveBarrelTo(FVector AimDirection) {
     auto AimAsRotator = AimDirection.Rotation();
     auto DeltaRotator = AimAsRotator - BarrelRotator;
     
-    Barrel->Elevate(DeltaRotator.Pitch); // TODO: Remove magic number
+    Barrel->Elevate(DeltaRotator.Pitch);
+}
+
+void UTankAimingComponent::MoveTurretTo(FVector AimDirection) {
+    auto TurretRotator = Turret->GetForwardVector().Rotation();
+    auto AimAsRotator = AimDirection.Rotation();
+    
+    auto TurretRotatorDenormalized = TurretRotator.GetDenormalized();
+    auto AimRotatorDenormalized = AimAsRotator.GetDenormalized();
+    
+    
+    float YawDifference = AimRotatorDenormalized.Yaw - TurretRotatorDenormalized.Yaw;
+    
+    if (YawDifference > 180.f) {
+        YawDifference -= 360.f;
+    } else if (YawDifference < -180.f) {
+        YawDifference += 360.f;
+    }
+    
+    
+    
+    
+    
+    UE_LOG(LogTemp, Warning, TEXT("Aim Degrees: %f; Difference from Current: %f"), AimRotatorDenormalized.Yaw, YawDifference);
+    
+//    auto DeltaRotator = AimAsRotator - TurretRotator;
+//    
+//    UE_LOG(LogTemp, Warning, TEXT("Delta Rotation: %f"), DeltaRotator.Yaw);
+//    
+    Turret->Rotate(YawDifference);
 }
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet) {
     Barrel = BarrelToSet;
 }
+
+void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet) {
+    Turret = TurretToSet;
+}
+
