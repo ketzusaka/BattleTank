@@ -8,6 +8,7 @@
 class AProjectile;
 class UTankBarrel;
 class UTankAimingComponent;
+class UTankMovementComponent;
 class UTankTurret;
 
 UCLASS()
@@ -30,6 +31,11 @@ class BATTLETANK_API ATank : public APawn
     
     double LastFireTime = 0.f;
 
+protected:
+    
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Setup)
+    UTankMovementComponent* TankMovementComponent = nullptr;
+    
 public:
 	// Sets default values for this pawn's properties
 	ATank();
