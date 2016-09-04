@@ -13,23 +13,14 @@ void ATankAIController::Tick( float DeltaTime ) {
     Super::Tick( DeltaTime );
     
     auto ControlledTank = Cast<ATank>(GetPawn());
-    if (!ControlledTank) {
-        UE_LOG(LogTemp, Error, TEXT("AIController is not possessing a tank"));
-        return;
-    }
+    if (!ensure(ControlledTank)) { return; }
     
     auto PlayerController = GetWorld()->GetFirstPlayerController();
     
-    if (!PlayerController) {
-        UE_LOG(LogTemp, Error, TEXT("Could not obtain tank"));
-        return;
-    }
+    if (!ensure(PlayerController)) { return; }
     
     auto PlayerTank = Cast<ATank>(PlayerController->GetPawn());
-    if (!PlayerTank) {
-        UE_LOG(LogTemp, Error, TEXT("Cannot find Player Tank"));
-        return;
-    }
+    if (!ensure(PlayerTank)) { return; }
     
     MoveToActor(PlayerTank, 3000);
     

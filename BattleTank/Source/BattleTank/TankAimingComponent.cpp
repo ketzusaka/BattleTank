@@ -38,15 +38,9 @@ void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, 
 
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed) {
-    if (!Barrel) {
-        UE_LOG(LogTemp, Error, TEXT("No barrel linked to aiming component"));
-        return;
-    }
+    if (!ensure(Barrel)) { return; }
     
-    if (!Turret) {
-        UE_LOG(LogTemp, Error, TEXT("No turret linked to aiming component"));
-        return;
-    }
+    if (!ensure(Turret)) { return; }
     
     auto OurTankName = GetOwner()->GetName();
     
