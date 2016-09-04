@@ -20,6 +20,9 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
 {
 	GENERATED_BODY()
     
+    UPROPERTY(EditDefaultsOnly, Category = "Firing")
+    float LaunchSpeed = 4000;
+    
     UTankBarrel* Barrel = nullptr;
     UTankTurret* Turret = nullptr;
     
@@ -44,6 +47,6 @@ public:
 	// Called every frame
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 
-    void AimAt(FVector HitLocation, float LaunchSpeed);
+    void AimAt(FVector HitLocation);
 	
 };

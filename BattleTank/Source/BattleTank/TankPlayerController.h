@@ -5,7 +5,6 @@
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h"
 
-class ATank;
 class UTankAimingComponent;
 
 /**
@@ -33,9 +32,6 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
     float LineTraceRange = 1000000.f;
     
 protected:
-    
-    UFUNCTION(BlueprintCallable, Category = "Setup")
-    ATank* GetControlledTank() const;
     
     UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
     void FoundAimingComponent(UTankAimingComponent* AimingComponent);
