@@ -8,7 +8,6 @@
 class AProjectile;
 class UTankBarrel;
 class UTankAimingComponent;
-class UTankMovementComponent;
 class UTankTurret;
 
 UCLASS()
@@ -32,12 +31,11 @@ protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Setup")
     UTankAimingComponent* TankAimingComponent = nullptr;
     
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Setup")
-    UTankMovementComponent* TankMovementComponent = nullptr;
-    
 public:
 	// Sets default values for this pawn's properties
 	ATank();
+    
+    virtual void BeginPlay() override;
 
     void AimAt(FVector HitLocation);
     
