@@ -30,6 +30,7 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
     // TODO: Combine these?
     void MoveBarrelTo(FVector AimDirection);
     void MoveTurretTo(FVector AimDirection);
+    bool IsBarrelMoving() const;
     
     UPROPERTY(EditDefaultsOnly, Category=Setup)
     TSubclassOf<AProjectile> ProjectileBlueprint;
@@ -38,6 +39,7 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
     float ReloadTimeInSeconds = 3.f;
     
     double LastFireTime = 0.f;
+    FVector CurrentAimDirection = FVector::ForwardVector;
 
 protected:
     UPROPERTY(BlueprintReadOnly, Category = "State")
