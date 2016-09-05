@@ -27,9 +27,7 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
     UTankBarrel* Barrel = nullptr;
     UTankTurret* Turret = nullptr;
     
-    // TODO: Combine these?
-    void MoveBarrelTo(FVector AimDirection);
-    void MoveTurretTo(FVector AimDirection);
+    void MoveBarrelTowards(FVector AimDirection);
     bool IsBarrelMoving() const;
     
     UPROPERTY(EditDefaultsOnly, Category=Setup)

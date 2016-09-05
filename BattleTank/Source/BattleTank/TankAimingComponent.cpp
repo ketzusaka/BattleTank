@@ -77,36 +77,23 @@ void UTankAimingComponent::AimAt(FVector HitLocation) {
     
     CurrentAimDirection = OutLaunchVelocity.GetSafeNormal(); // Convert to unit vector
     
-    MoveBarrelTo(CurrentAimDirection);
-    MoveTurretTo(CurrentAimDirection);
+    MoveBarrelTowards(CurrentAimDirection);
 }
 
-void UTankAimingComponent::MoveBarrelTo(FVector AimDirection) {
-    // Work out difference between current barrel rotation and aim direction
+void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) {
+    if (!ensure(Barrel) || !ensure(Turret)) { return; }
+    
     auto BarrelRotator = Barrel->GetForwardVector().Rotation();
     auto AimAsRotator = AimDirection.Rotation();
     auto DeltaRotator = AimAsRotator - BarrelRotator;
     
     Barrel->Elevate(DeltaRotator.Pitch);
-}
-
-void UTankAimingComponent::MoveTurretTo(FVector AimDirection) {
-    auto TurretRotator = Turret->GetForwardVector().Rotation();
-    auto AimAsRotator = AimDirection.Rotation();
     
-    auto TurretRotatorDenormalized = TurretRotator.GetDenormalized();
-    auto AimRotatorDenormalized = AimAsRotator.GetDenormalized();
-    
-    
-    float YawDifference = AimRotatorDenormalized.Yaw - TurretRotatorDenormalized.Yaw;
-    
-    if (YawDifference > 180.f) {
-        YawDifference -= 360.f;
-    } else if (YawDifference < -180.f) {
-        YawDifference += 360.f;
+    if (FMath::Abs(DeltaRotator.Yaw) < 180) {
+        Turret->Rotate(DeltaRotator.Yaw);
+    } else {
+        Turret->Rotate(-DeltaRotator.Yaw);
     }
-    
-    Turret->Rotate(YawDifference);
 }
 
 void UTankAimingComponent::Initialize(UTankBarrel* Barrel, UTankTurret* Turret) {
