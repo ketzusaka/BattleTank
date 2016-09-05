@@ -13,11 +13,11 @@ AProjectile::AProjectile()
     CollisionMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("Collision Mesh"));
     SetRootComponent(CollisionMesh);
     CollisionMesh->SetNotifyRigidBodyCollision(true);
-    CollisionMesh->SetVisibility(false);
+    CollisionMesh->SetVisibility(true);
     
     LaunchBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Launch Blast"));
-    FAttachmentTransformRules AttachmentRules(EAttachmentRule::KeepRelative, false);
-    LaunchBlast->AttachToComponent(CollisionMesh, AttachmentRules);
+//    FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, false);
+    LaunchBlast->AttachTo(CollisionMesh);
     
     ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Movement Component"));
     ProjectileMovementComponent->bAutoActivate = false;

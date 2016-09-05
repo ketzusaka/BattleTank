@@ -12,10 +12,10 @@ class BATTLETANK_API AProjectile : public AActor
     
     UProjectileMovementComponent* ProjectileMovementComponent = nullptr;
     
-    UPROPERTY(VisibleAnywhere)
+    UPROPERTY(EditDefaultsOnly)
     UStaticMeshComponent* CollisionMesh = nullptr;
     
-    UPROPERTY(VisibleAnywhere)
+    UPROPERTY(EditDefaultsOnly)
     UParticleSystemComponent* LaunchBlast = nullptr;
 	
 public:	
