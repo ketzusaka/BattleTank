@@ -22,7 +22,7 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
 	GENERATED_BODY()
     
     UPROPERTY(EditDefaultsOnly, Category = "Firing")
-    float LaunchSpeed = 4000;
+    float LaunchSpeed = 8000;
     
     UTankBarrel* Barrel = nullptr;
     UTankTurret* Turret = nullptr;
