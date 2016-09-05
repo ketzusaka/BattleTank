@@ -9,7 +9,8 @@ UENUM()
 enum class EFiringState: uint8 {
     Reloading,
     Aiming,
-    Locked
+    Locked,
+    OutOfAmmo
 };
 
 class UTankBarrel;
@@ -30,10 +31,10 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
     void MoveBarrelTowards(FVector AimDirection);
     bool IsBarrelMoving() const;
     
-    UPROPERTY(EditDefaultsOnly, Category=Setup)
+    UPROPERTY(EditDefaultsOnly, Category = "Setup")
     TSubclassOf<AProjectile> ProjectileBlueprint;
     
-    UPROPERTY(EditDefaultsOnly, Category=Firing)
+    UPROPERTY(EditDefaultsOnly, Category = "Firing")
     float ReloadTimeInSeconds = 3.f;
     
     double LastFireTime = 0.f;
@@ -42,6 +43,9 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
 protected:
     UPROPERTY(BlueprintReadOnly, Category = "State")
     EFiringState FiringState = EFiringState::Reloading;
+    
+    UPROPERTY(BlueprintReadOnly, Category = "State")
+    int Ammo = 3;
     
 public:	
 	// Sets default values for this component's properties
@@ -58,8 +62,9 @@ public:
 
     void AimAt(FVector HitLocation);
 	
-    UFUNCTION(BlueprintCallable, Category = Gameplay)
+    UFUNCTION(BlueprintCallable, Category = "Gameplay")
     void Fire();
     
     EFiringState GetFiringState() const;
+    int GetAmmoRemaining() const;
 };
