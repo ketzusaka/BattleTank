@@ -44,8 +44,8 @@ protected:
     UPROPERTY(BlueprintReadOnly, Category = "State")
     EFiringState FiringState = EFiringState::Reloading;
     
-    UPROPERTY(BlueprintReadOnly, Category = "State")
-    int Ammo = 3;
+    UPROPERTY(EditDefaultsOnly, Category = "Firing")
+    int32 Ammo = 3;
     
 public:	
 	// Sets default values for this component's properties
@@ -66,5 +66,5 @@ public:
     void Fire();
     
     EFiringState GetFiringState() const;
-    int GetAmmoRemaining() const;
+    int32 GetAmmoRemaining() const;
 };

@@ -11,6 +11,12 @@ class BATTLETANK_API AProjectile : public AActor
 	GENERATED_BODY()
     
     UProjectileMovementComponent* ProjectileMovementComponent = nullptr;
+    
+    UPROPERTY(VisibleAnywhere)
+    UStaticMeshComponent* CollisionMesh = nullptr;
+    
+    UPROPERTY(VisibleAnywhere)
+    UParticleSystemComponent* LaunchBlast = nullptr;
 	
 public:	
 	// Sets default values for this actor's properties
