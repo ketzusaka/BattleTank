@@ -10,7 +10,11 @@ class BATTLETANK_API ATank : public APawn
 {
 	GENERATED_BODY()
     
-
+    UPROPERTY(EditDefaultsOnly, Category = "Setup")
+    int32 StartingHealth = 500;
+    
+    UPROPERTY(VisibleAnywhere, Category = "Gameplay")
+    int32 CurrentHealth = StartingHealth;
 
 protected:
     
@@ -19,5 +23,7 @@ public:
 	ATank();
     
     virtual void BeginPlay() override;
+    
+    virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 	
 };
