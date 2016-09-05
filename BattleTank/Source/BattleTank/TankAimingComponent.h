@@ -60,4 +60,6 @@ public:
 	
     UFUNCTION(BlueprintCallable, Category = Gameplay)
     void Fire();
+    
+    EFiringState GetFiringState() const;
 };
