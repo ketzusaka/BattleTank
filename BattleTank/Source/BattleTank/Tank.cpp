@@ -16,12 +16,13 @@ void ATank::BeginPlay() {
 }
 
 float ATank::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) {
+    if (CurrentHealth == 0) { return 0; } // Can't apply damage to a dead tank!
     int32 DamagePoints = FPlatformMath::RoundToInt(DamageAmount);
     int32 DamageToApply = FMath::Clamp<int32>(DamagePoints, 0, CurrentHealth);
     CurrentHealth -= DamageToApply;
     
     if (CurrentHealth == 0) {
-        UE_LOG(LogTemp, Warning, TEXT("Tank died!"));
+        OnDeath.Broadcast();
     }
     
     return DamageToApply;

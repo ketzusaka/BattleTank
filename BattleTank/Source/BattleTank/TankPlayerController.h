@@ -31,6 +31,9 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
     UPROPERTY(EditDefaultsOnly)
     float LineTraceRange = 1000000.f;
     
+    UFUNCTION()
+    void OnTankDeath();
+    
 protected:
     
     UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
@@ -42,5 +45,7 @@ public:
 	
     virtual void BeginPlay() override;
     virtual void Tick( float DeltaTime ) override;
+    
+    virtual void SetPawn(APawn* InPawn) override;
 	
 };
