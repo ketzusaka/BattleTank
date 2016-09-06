@@ -95,5 +95,5 @@ void ATankPlayerController::SetPawn(APawn* InPawn) {
 }
 
 void ATankPlayerController::OnTankDeath() {
-    UE_LOG(LogTemp, Warning, TEXT("PLAYER got tank death"));
+    StartSpectatingOnly();
 }
